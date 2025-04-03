@@ -1,0 +1,29 @@
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class TimeCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+
+        System.out.print("Enter time-in (hh:mm AM/PM): ");
+        String timeInStr = scanner.nextLine();
+        LocalTime timeIn = LocalTime.parse(timeInStr, formatter);
+
+        System.out.print("Enter time-out (hh:mm AM/PM): ");
+        String timeOutStr = scanner.nextLine();
+        LocalTime timeOut = LocalTime.parse(timeOutStr, formatter);
+
+        Duration duration = Duration.between(timeIn, timeOut);
+        long hours = duration.toHours();
+        long minutes = duration.toMinutesPart();
+
+        System.out.println("Time-in: " + timeIn.format(formatter));
+        System.out.println("Time-out: " + timeOut.format(formatter));
+        System.out.println("Total time rendered: " + hours + " hours and " + minutes + " minutes");
+
+        scanner.close();
+    }
+}
