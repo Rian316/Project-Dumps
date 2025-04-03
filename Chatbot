@@ -1,0 +1,46 @@
+import re
+
+chat_memory = {}
+
+def solve_math(expression):
+    try:
+        expression = expression.replace("^", "**")
+        result = eval(expression)  # Using Python's built-in math solver
+        return f"Result: {result}"
+    except Exception as e:
+        return f"Error in solving math problem: {e}"
+
+def logical_reasoning(question):
+    question = question.lower()
+    
+    if "if" in question and "then" in question:
+        return "That sounds like a conditional logic statement. Please clarify the premises for analysis."
+    elif "true or false" in question:
+        return "Logical statements depend on the given premises. Can you provide more details?"
+    elif "and" in question or "or" in question:
+        return "This involves Boolean logic. You might be referring to truth tables or logical operators."
+    return "Logical reasoning requires more context. Try rewording your question."
+
+def chatbot():
+    print("Welcome to the Online Chatbot! Ask me a math or logic question.")
+    
+    while True:
+        user_input = input("\nEnter a math equation or logic question (type 'exit' to quit): ").strip().lower()
+        
+        if user_input == "exit":
+            print("Goodbye! See you next time.")
+            break
+        
+        if user_input in chat_memory:
+            print(f"(Remembered Response): {chat_memory[user_input]}")
+            continue
+
+        if re.search(r'[0-9+\-*/^]', user_input):
+            response = solve_math(user_input)
+        else:
+            response = logical_reasoning(user_input)
+
+        print(response)
+        chat_memory[user_input] = response
+
+chatbot()
