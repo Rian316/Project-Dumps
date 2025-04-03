@@ -1,0 +1,39 @@
+import ipaddress
+
+def generate_vlan_subnet(vlan_id, subnet_base="192.168.1.0", subnet_mask="255.255.255.0"):
+    network = ipaddress.IPv4Network(f"{subnet_base}/{subnet_mask}", strict=False)
+    # Increment the network base to create unique subnets for each VLAN
+    subnet = network.network_address + (vlan_id - 1) * 256  # 256 addresses per subnet
+    return ipaddress.IPv4Network(f"{subnet}/{subnet_mask}", strict=False)
+
+def vlan_subnet_generator():
+    print("Welcome to the VLAN to IP Subnet Generator!")
+    
+    while True:
+        try:
+            num_vlans = int(input("Enter the number of VLANs to generate: "))
+            if num_vlans < 1:
+                print("Please enter a number greater than 0.")
+                continue
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+            continue
+
+        subnet_base = input("Enter the base subnet (e.g., 192.168.1.0): ") or "192.168.1.0"
+        subnet_mask = input("Enter the subnet mask (e.g., 255.255.255.0): ") or "255.255.255.0"
+        
+        vlans = []
+        for vlan_id in range(1, num_vlans + 1):
+            subnet = generate_vlan_subnet(vlan_id, subnet_base, subnet_mask)
+            vlans.append((vlan_id, subnet))
+        
+        print(f"\nGenerated VLANs and Subnets:")
+        for vlan_id, subnet in vlans:
+            print(f"VLAN {vlan_id}: {subnet}")
+        
+        play_again = input("\nDo you want to generate more VLANs? (y/n): ").lower()
+        if play_again != "y":
+            print("Thanks for using the VLAN to IP Subnet Generator!")
+            break
+
+vlan_subnet_generator()
