@@ -1,0 +1,20 @@
+from datetime import datetime, timedelta
+
+time_format = "%I:%M %p"
+
+time_in_str = input("Enter time-in (hh:mm AM/PM): ")
+time_out_str = input("Enter time-out (hh:mm AM/PM): ")
+
+time_in = datetime.strptime(time_in_str, time_format)
+time_out = datetime.strptime(time_out_str, time_format)
+
+if time_out < time_in:
+    time_out += timedelta(days=1)
+
+time_rendered = time_out - time_in
+hours, remainder = divmod(time_rendered.total_seconds(), 3600)
+minutes = remainder // 60
+
+print(f"Time-in: {time_in.strftime(time_format)}")
+print(f"Time-out: {time_out.strftime(time_format)}")
+print(f"Total time rendered: {int(hours)} hours and {int(minutes)} minutes")
