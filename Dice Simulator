@@ -1,0 +1,24 @@
+import random
+
+def roll_dice():
+    return random.randint(1, 6)
+
+def dice_simulator():
+    print("Welcome to the 3 Dice Simulator!")
+    
+    while True:
+        input("Press Enter to roll the dice...")
+
+        dice1 = roll_dice()
+        dice2 = roll_dice()
+        dice3 = roll_dice()
+
+        print(f"Dice 1: {dice1}, Dice 2: {dice2}, Dice 3: {dice3}")
+        print(f"Total: {dice1 + dice2 + dice3}")
+
+        play_again = input("Do you want to roll again? (y/n): ").lower()
+        if play_again != "y":
+            print("Thanks for playing!")
+            break
+
+dice_simulator()
